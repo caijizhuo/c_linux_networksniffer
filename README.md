@@ -6,9 +6,9 @@ Network sniffer for linux. Use C-Unix sockets. Support TCP, UDP, ICMP.
 ## Usage: ##
 
 ```
-./network_sniffer
-```
-or
-```
 bash launcher.sh
+```
+build the sniffer, then
+```
+sudo ./network_sniffer
 ```
