@@ -3,18 +3,18 @@ SRCS = main.c tools.c show_data.c
 
 OBJS = $(SRCS:.c=.o)
 CC = gcc -o
-CFLAGS = -W -Wall
+CFLAGS = -W -Wall -g
 RM = rm -rf
 
 $(NAME) : $(OBJS)
-  $(CC) $(NAME) -I./ $(CFLAGS) $(OBJS)
+	$(CC) $(NAME) -I./ $(CFLAGS) $(OBJS)
 
 all : $(NAME)
 
 clean :
-  $(RM) $(OBJS)
+	$(RM) $(OBJS)
 
 fclean : clean
-  $(RM) $(NAME)
+	$(RM) $(NAME)
 
 re : fclean all
