@@ -1,7 +1,7 @@
 #include	<signal.h>
 #include	<stdio.h>
 
-/* 信号处理函数 */
+/* 淇″彿澶勭悊鍑芥暟 */
 void signal_white_now(int signum)
 {
 	printf("Bye Bye !\n");

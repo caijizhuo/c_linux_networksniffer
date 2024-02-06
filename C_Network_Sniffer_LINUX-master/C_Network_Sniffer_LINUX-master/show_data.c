@@ -12,7 +12,7 @@
 #include "sniffer.h"
 #include "tools.h"
 
-/* Ğ´ IP Í·²¿µ½ÈÕÖ¾ÎÄ¼ş */
+/* å†™ IP å¤´éƒ¨åˆ°æ—¥å¿—æ–‡ä»¶ */
 void print_ip_header(unsigned char *buf, int size, t_sniffer *sniffer)
 {
 	unsigned short iphdrlen;
@@ -44,7 +44,7 @@ void print_ip_header(unsigned char *buf, int size, t_sniffer *sniffer)
 	fprintf(sniffer->logfile,"   |-Destination IP   : %s\n",inet_ntoa(dest.sin_addr));
 }
 
-/* Ğ´ TCP Êı¾İ°üµ½ÈÕÖ¾ÎÄ¼ş */
+/* å†™ TCP æ•°æ®åŒ…åˆ°æ—¥å¿—æ–‡ä»¶ */
 void print_tcp_packet(unsigned char *buf, int size, t_sniffer *sniffer)
 {
 	unsigned short iphdrlen;
@@ -56,7 +56,7 @@ void print_tcp_packet(unsigned char *buf, int size, t_sniffer *sniffer)
 	tcph = (struct tcphdr*)(buf + iphdrlen);
 	print_ip_header(buf, size, sniffer);
     
-	/* °Ñ tcp Í·ĞÅÏ¢Ğ´ÈëÈÕÖ¾ÎÄ¼şÖĞ */
+	/* æŠŠ tcp å¤´ä¿¡æ¯å†™å…¥æ—¥å¿—æ–‡ä»¶ä¸­ */
 	fprintf(sniffer->logfile,"\n");
 	fprintf(sniffer->logfile,"TCP Header\n");
 	fprintf(sniffer->logfile,"   |-Source Port      : %u\n",ntohs(tcph->source));
@@ -85,7 +85,7 @@ void print_tcp_packet(unsigned char *buf, int size, t_sniffer *sniffer)
   
 	fprintf(sniffer->logfile,"Data Payload\n");
 
-	/* °ÑÓÃ»§Êı¾İĞ´ÈëÈÕÖ¾ÎÄ¼ş */
+	/* æŠŠç”¨æˆ·æ•°æ®å†™å…¥æ—¥å¿—æ–‡ä»¶ */
 	PrintData(buf + iphdrlen + tcph->doff*4,
 		(size - tcph->doff*4-iph->ihl*4),
 		sniffer );
@@ -93,7 +93,7 @@ void print_tcp_packet(unsigned char *buf, int size, t_sniffer *sniffer)
 	fprintf(sniffer->logfile,"\n###########################################################");
 }
 
-/* Ğ´ UDP Êı¾İ°üµ½ÈÕÖ¾ÎÄ¼ş */
+/* å†™ UDP æ•°æ®åŒ…åˆ°æ—¥å¿—æ–‡ä»¶ */
 void print_udp_packet(unsigned char *buf , int size, t_sniffer *sniffer)
 {
 	unsigned short iphdrlen;
@@ -108,7 +108,7 @@ void print_udp_packet(unsigned char *buf , int size, t_sniffer *sniffer)
   
 	print_ip_header(buf, size, sniffer);
     
-	/* °Ñ udp Í·ĞÅÏ¢Ğ´ÈëÈÕÖ¾ÎÄ¼şÖĞ */
+	/* æŠŠ udp å¤´ä¿¡æ¯å†™å…¥æ—¥å¿—æ–‡ä»¶ä¸­ */
 	fprintf(sniffer->logfile,"\nUDP Header\n");
 	fprintf(sniffer->logfile,"   |-Source Port      : %d\n" , ntohs(udph->source));
 	fprintf(sniffer->logfile,"   |-Destination Port : %d\n" , ntohs(udph->dest));
@@ -124,7 +124,7 @@ void print_udp_packet(unsigned char *buf , int size, t_sniffer *sniffer)
   
 	fprintf(sniffer->logfile,"Data Payload\n");
 
-	/* °ÑÓÃ»§Êı¾İĞ´ÈëÈÕÖ¾ÎÄ¼ş */
+	/* æŠŠç”¨æˆ·æ•°æ®å†™å…¥æ—¥å¿—æ–‡ä»¶ */
 	PrintData(buf + iphdrlen + sizeof udph,
 		(size - sizeof udph - iph->ihl * 4),
 		sniffer);
@@ -132,7 +132,7 @@ void print_udp_packet(unsigned char *buf , int size, t_sniffer *sniffer)
 	fprintf(sniffer->logfile,"\n###########################################################");
 }
 
-/* Ğ´ ICMP Êı¾İ°üµ½ÈÕÖ¾ÎÄ¼ş */
+/* å†™ ICMP æ•°æ®åŒ…åˆ°æ—¥å¿—æ–‡ä»¶ */
 void print_icmp_packet(unsigned char *buf , int size, t_sniffer *sniffer)
 {
 	unsigned short iphdrlen;
@@ -143,7 +143,7 @@ void print_icmp_packet(unsigned char *buf , int size, t_sniffer *sniffer)
 	iphdrlen = iph->ihl * 4;
 	icmph = (struct icmphdr *)(buf + iphdrlen);
 
-	/* °Ñ icmp Í·ĞÅÏ¢Ğ´ÈëÈÕÖ¾ÎÄ¼şÖĞ */
+	/* æŠŠ icmp å¤´ä¿¡æ¯å†™å…¥æ—¥å¿—æ–‡ä»¶ä¸­ */
 	fprintf(sniffer->logfile,"\n\n***********************ICMP Packet*************************\n");  
 	print_ip_header(buf , size, sniffer);
 	fprintf(sniffer->logfile,"\n");
@@ -163,7 +163,7 @@ void print_icmp_packet(unsigned char *buf , int size, t_sniffer *sniffer)
   
 	fprintf(sniffer->logfile,"Data Payload\n");  
 
-	/* ×îºó½«ÓÃ»§Êı¾İĞ´ÈëÈÕÖ¾ÎÄ¼şÖĞ */
+	/* æœ€åå°†ç”¨æˆ·æ•°æ®å†™å…¥æ—¥å¿—æ–‡ä»¶ä¸­ */
 	PrintData(buf + iphdrlen + sizeof(icmph),
 		(size - sizeof(icmph) - iph->ihl * 4),
 		sniffer);
@@ -171,7 +171,7 @@ void print_icmp_packet(unsigned char *buf , int size, t_sniffer *sniffer)
 	fprintf(sniffer->logfile,"\n###########################################################");
 }
 
-/* Ğ´ÓÃ»§Êı¾İµ½ÈÕÖ¾ÎÄ¼ş */
+/* å†™ç”¨æˆ·æ•°æ®åˆ°æ—¥å¿—æ–‡ä»¶ */
 void PrintData(unsigned char *buf, int size, t_sniffer *sniffer)
 {
   int i;

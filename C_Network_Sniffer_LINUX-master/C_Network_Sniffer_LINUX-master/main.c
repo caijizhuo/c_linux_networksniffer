@@ -40,35 +40,35 @@ int	command_interpreter(int sd)
 void display_time_and_date()
 {
 	INITCOLOR(RED_COLOR);
-	printf("[%s]", __DATE__); /* ´òÓ¡ÈÕÆÚ */
+	printf("[%s]", __DATE__); /* æ‰“å°æ—¥æœŸ */
 	INITCOLOR(GREEN_COLOR);
-	printf("[%s]  ", __TIME__); /* ´òÓ¡Ê±¼ä */
+	printf("[%s]  ", __TIME__); /* æ‰“å°æ—¶é—´ */
 	INITCOLOR(ZERO_COLOR);
 }
 
 void getting_started()
 {
-	CLEARSCREEN(); /* Çå¿ÕÆÁÄ» */
+	CLEARSCREEN(); /* æ¸…ç©ºå±å¹• */
 	display_time_and_date();
 	printf("Getting started of Network sniffer\n\n");  
 }
 
-/* Ö÷º¯ÊıÈë¿Ú */
+/* ä¸»å‡½æ•°å…¥å£ */
 int	main()
 {
-	/* ÉùÃ÷²¿·Ö */
+	/* å£°æ˜éƒ¨åˆ† */
 	int	sd;
 	int	res;
 	int	saddr_size;
 	int	data_size;
 	struct sockaddr saddr;
-	unsigned char *buffer; /* ±£´æÊı¾İ°üµÄÊı¾İ */
-	t_sniffer sniffer; /* ±£´æÊı¾İ°üµÄÀàĞÍºÍÈÕÖ¾ÎÄ¼şµÈĞÅÏ¢ */
+	unsigned char *buffer; /* ä¿å­˜æ•°æ®åŒ…çš„æ•°æ® */
+	t_sniffer sniffer; /* ä¿å­˜æ•°æ®åŒ…çš„ç±»å‹å’Œæ—¥å¿—æ–‡ä»¶ç­‰ä¿¡æ¯ */
 	fd_set fd_read;
 
 	buffer = malloc(sizeof(unsigned char *) * 65536); 
 
-	/* ÒÔ¿ÉĞ´µÄ·½Ê½ÔÚµ±Ç°ÎÄ¼ş¼ĞÖĞ´´½¨ÈÕÖ¾ÎÄ¼ş */
+	/* ä»¥å¯å†™çš„æ–¹å¼åœ¨å½“å‰æ–‡ä»¶å¤¹ä¸­åˆ›å»ºæ—¥å¿—æ–‡ä»¶ */
 	sniffer.logfile = fopen("log.txt", "w");
 	fprintf(sniffer.logfile,"***LOGFILE(%s - %s)***\n", __DATE__, __TIME__);
 	if (sniffer.logfile == NULL)
@@ -79,7 +79,7 @@ int	main()
 
 	sniffer.prot = malloc(sizeof(t_protocol *));  
 
-	/* ´´½¨Ô­Ê¼Ì×½Ó×Ö£¬ETH_P_ALL ±íÊ¾ÕìÌı¸ºÔØÎª IP Êı¾İ±¨µÄÒÔÌ«ÍøÖ¡ */
+	/* åˆ›å»ºåŸå§‹å¥—æ¥å­—ï¼ŒETH_P_ALL è¡¨ç¤ºä¾¦å¬è´Ÿè½½ä¸º IP æ•°æ®æŠ¥çš„ä»¥å¤ªç½‘å¸§ */
 	sd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_IP)); 
 	if (sd < 0)
 	{
@@ -90,14 +90,14 @@ int	main()
 	signal(SIGINT, &signal_white_now);
 	signal(SIGQUIT, &signal_white_now);
 
-	/* Ñ­»·ÕìÌıÒÔÌ«ÍøÖ¡£¬²¢µ÷ÓÃ ProcessPacket º¯Êı½âÎö */
+	/* å¾ªç¯ä¾¦å¬ä»¥å¤ªç½‘å¸§ï¼Œå¹¶è°ƒç”¨ ProcessPacket å‡½æ•°è§£æ */
 	while (1)
 	{
 		FD_ZERO(&fd_read);
 		FD_SET(0, &fd_read);
 		FD_SET(sd, &fd_read);
 
-		/* ¶àÂ·¸´ÓÃ¼ì²â¿É¶ÁµÄÌ×½Ó×ÖºÍ±ê×¼ÊäÈë */
+		/* å¤šè·¯å¤ç”¨æ£€æµ‹å¯è¯»çš„å¥—æ¥å­—å’Œæ ‡å‡†è¾“å…¥ */
 		res = select(sd + 1, &fd_read, NULL, NULL, NULL);
 		if (res < 0)
 			{
@@ -108,19 +108,19 @@ int	main()
 			}
 		else
 			{
-				/* Èç¹ûÊÇ±ê×¼ÊäÈë¿É¶Á£¬½øÈëÃüÁîĞĞ´¦Àí³ÌĞò command_interpreter£¬ÔİÊ±Ö»Ö§³Ö 'quit' ÃüÁî */
+				/* å¦‚æœæ˜¯æ ‡å‡†è¾“å…¥å¯è¯»ï¼Œè¿›å…¥å‘½ä»¤è¡Œå¤„ç†ç¨‹åº command_interpreterï¼Œæš‚æ—¶åªæ”¯æŒ 'quit' å‘½ä»¤ */
 				if (FD_ISSET(0, &fd_read)) 
 				{
 					if (command_interpreter(sd) == 1)
 					break;
 				}
 
-				/* Èç¹ûÊÇÌ×½Ó×Ö¿É¶Á£¬Ôò¶ÁÈ¡ÒÔÌ«ÍøÊı¾İÖ¡µÄÄÚÈİ£¬²¢µ÷ÓÃ ProcessPacket º¯Êı½âÎö³öÊı¾İ°üµÄÀàĞÍ */
+				/* å¦‚æœæ˜¯å¥—æ¥å­—å¯è¯»ï¼Œåˆ™è¯»å–ä»¥å¤ªç½‘æ•°æ®å¸§çš„å†…å®¹ï¼Œå¹¶è°ƒç”¨ ProcessPacket å‡½æ•°è§£æå‡ºæ•°æ®åŒ…çš„ç±»å‹ */
 				else if (FD_ISSET(sd, &fd_read))
 					{
-						/* ¶ÁÈ¡ÒÔÌ«ÍøÊı¾İÖ¡µÄÄÚÈİ */
+						/* è¯»å–ä»¥å¤ªç½‘æ•°æ®å¸§çš„å†…å®¹ */
 						saddr_size = sizeof(saddr);
-						data_size = recvfrom(sd, buffer, 65536, 0, &saddr,(socklen_t*)&saddr_size); /* ¶ÁÈ¡ÒÔÌ«ÍøÊı¾İÖ¡µÄÄÚÈİ */
+						data_size = recvfrom(sd, buffer, 65536, 0, &saddr,(socklen_t*)&saddr_size); /* è¯»å–ä»¥å¤ªç½‘æ•°æ®å¸§çš„å†…å®¹ */
 						if (data_size <= 0)
 							{
 								close(sd);
@@ -128,7 +128,7 @@ int	main()
 								return (EXIT_FAILURE);
 							}
 
-						ProcessPacket(buffer, data_size, &sniffer); /* µ÷ÓÃ ProcessPacket º¯Êı½âÎö³öÊı¾İ°üµÄÀàĞÍ */
+						ProcessPacket(buffer, data_size, &sniffer); /* è°ƒç”¨ ProcessPacket å‡½æ•°è§£æå‡ºæ•°æ®åŒ…çš„ç±»å‹ */
 					}
 			}
 	}
@@ -139,31 +139,31 @@ int	main()
 
 void ProcessPacket(unsigned char* buffer, int size, t_sniffer *sniffer)
 {
-	buffer = buffer + 6 + 6 + 2; /* ¸ù¾İÌ«ÍøÖ¡½á¹¹£¬Ç° 6B ÊÇÄ¿µÄ MAC µØÖ·£¬½ÓÏÂÀ´µÄÊÇÔ´ MAC µØÖ·£¬½ÓÏÂÀ´ 2B ÊÇÖ¡³¤¶È£¬ÆäÓàµÄÊÇ¸ºÔØ£¨ÉÏ²ãµÄ IP Êı¾İ±¨£© */
+	buffer = buffer + 6 + 6 + 2; /* æ ¹æ®å¤ªç½‘å¸§ç»“æ„ï¼Œå‰ 6B æ˜¯ç›®çš„ MAC åœ°å€ï¼Œæ¥ä¸‹æ¥çš„æ˜¯æº MAC åœ°å€ï¼Œæ¥ä¸‹æ¥ 2B æ˜¯å¸§é•¿åº¦ï¼Œå…¶ä½™çš„æ˜¯è´Ÿè½½ï¼ˆä¸Šå±‚çš„ IP æ•°æ®æŠ¥ï¼‰ */
 	struct iphdr *iph = (struct iphdr*)buffer;
-	++sniffer->prot->total; /* Êı¾İ°ü×ÜÊı¼Ó 1 */
+	++sniffer->prot->total; /* æ•°æ®åŒ…æ€»æ•°åŠ  1 */
 
-	/* ¸ù¾İ TCP/IP Ğ­Òé¹æ¶¨µÄ IP Êı¾İ±¨Í·²¿µÄ protocol ×Ö¶ÎµÄÖµ£¬ÅĞ¶ÏÉÏ²ãµÄÊı¾İ°üÀàĞÍ */
+	/* æ ¹æ® TCP/IP åè®®è§„å®šçš„ IP æ•°æ®æŠ¥å¤´éƒ¨çš„ protocol å­—æ®µçš„å€¼ï¼Œåˆ¤æ–­ä¸Šå±‚çš„æ•°æ®åŒ…ç±»å‹ */
 	switch (iph->protocol)
 		{
-			/* 1 ±íÊ¾ icmp Ğ­Òé */
+			/* 1 è¡¨ç¤º icmp åè®® */
 			case 1: 
 				++sniffer->prot->icmp;
 				print_icmp_packet(buffer, size, sniffer);
 				break;
 				
-			/* 2 ±íÊ¾ igmp Ğ­Òé */
+			/* 2 è¡¨ç¤º igmp åè®® */
 			case 2:
 				++sniffer->prot->igmp;
 				break;
 				
-			/* 6 ±íÊ¾ tcp Ğ­Òé */
+			/* 6 è¡¨ç¤º tcp åè®® */
 			case 6:
 				++sniffer->prot->tcp;
 				print_tcp_packet(buffer , size, sniffer);
 				break;
 				
-			/* 17 ±íÊ¾ udp Ğ­Òé */
+			/* 17 è¡¨ç¤º udp åè®® */
 			case 17:
 				++sniffer->prot->udp;
 				print_udp_packet(buffer , size, sniffer);
@@ -174,9 +174,9 @@ void ProcessPacket(unsigned char* buffer, int size, t_sniffer *sniffer)
 				break;
 		}
 
-	display_time_and_date(); /* ÏÔÊ¾Ê±¼ä */
+	display_time_and_date(); /* æ˜¾ç¤ºæ—¶é—´ */
 
-	/* ´òÓ¡ sniffer ÖĞµÄĞÅÏ¢ */
+	/* æ‰“å° sniffer ä¸­çš„ä¿¡æ¯ */
 	printf("TCP : %d   UDP : %d   ICMP : %d   IGMP : %d   Others : %d Total : %d\n",
 	 sniffer->prot->tcp, sniffer->prot->udp,
 	 sniffer->prot->icmp, sniffer->prot->igmp,
