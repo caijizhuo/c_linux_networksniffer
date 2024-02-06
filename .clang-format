@@ -1,0 +1,9 @@
+---
+Language: Cpp, Makefile
+BasedOnStyle: Google
+AlignAfterOpenBracket: Align
+AlignTrailingComments: true
+AllowAllArgumentsOnNextLine: true
+BreakConstructorInitializers: AfterColon
+ColumnLimit: 120
+...

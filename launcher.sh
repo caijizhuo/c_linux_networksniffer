@@ -1,13 +1,11 @@
 #!/bin/sh
 
-sigint()
-{
+sigint() {
     printf '\nQUIT !\n'
     exit 1
 }
 
-main()
-{
+main() {
     clear
     printf "\t\t\t\t\tWelcome to Sniffer Project r\n\n"
 
